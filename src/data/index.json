@@ -1,0 +1,33 @@
+{
+  "applications": {
+    "0": {
+      "name": "my-cool-app",
+      "dependencies": [
+        "my-user-lib",
+        "my-encription-lib"
+      ]
+    }
+  },
+  "libraries": {
+    "0": {
+      "name": "my-user-lib",
+      "dependencies": [
+        "my-user-api"
+      ]
+    },
+    "1": {
+      "name": "my-encription-lib"
+    }
+  },
+  "apis": {
+    "0": {
+      "name": "my-user-api"
+    }
+  },
+  "artifacts": [
+    { "name": "my-cool-app", "type": "application" },
+    { "name": "my-user-lib", "type": "library" },
+    { "name": "my-encription-lib", "type": "library" },
+    { "name": "my-user-api", "type": "api" }
+  ]
+}
