@@ -1,4 +1,4 @@
-const data = require('../data');
+const { artifacts, ...rest } = require('../data');
 
 /**
  * Given an object of architecture data, update the data such that each entry
@@ -19,3 +19,9 @@ const sanitize = (data) => {
     .map(({ name, ...rest }) => ({ [name]: { name, ...rest }}))
     .reduce((acc, o) => ({ ...acc, ...o }), {});
 };
+
+const sanitizedData = Object.entries(rest)
+  .map(([key, value]) => ({ [key]: sanitize(value) }))
+  .reduce((acc, o) => ({ ...acc, ...o }), { artifacts });
+
+console.log(sanitizedData);
