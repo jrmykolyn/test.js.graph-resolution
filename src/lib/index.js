@@ -124,7 +124,7 @@ const resolve = ({ artifacts, ...rest }) => {
         .map(([artifactName, artifactData]) => ({ [artifactName]: _resolve(artifactData, rest) }))
         .reduce(merge, {})
     }))
-    .reduce(merge, {});
+    .reduce(merge, { artifacts });
 };
 
 const sanitizedData = sanitize(data);
