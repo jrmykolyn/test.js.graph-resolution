@@ -1,4 +1,5 @@
 const { artifacts, ...rest } = require('../data');
+const { keyOn } = require('./utils');
 
 /**
  * Given an object of architecture data, update the data such that each entry
@@ -16,7 +17,7 @@ const { artifacts, ...rest } = require('../data');
  */
 const sanitize = (data) => {
   return Object.values(data)
-    .map(({ name, ...rest }) => ({ [name]: { name, ...rest }}))
+    .map(keyOn('name'))
     .reduce((acc, o) => ({ ...acc, ...o }), {});
 };
 
