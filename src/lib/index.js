@@ -1,5 +1,5 @@
 const { artifacts, ...rest } = require('../data');
-const { keyOn } = require('./utils');
+const { keyOn, merge } = require('./utils');
 
 /**
  * Given an object of architecture data, update the data such that each entry
@@ -18,7 +18,7 @@ const { keyOn } = require('./utils');
 const sanitize = (data) => {
   return Object.values(data)
     .map(keyOn('name'))
-    .reduce((acc, o) => ({ ...acc, ...o }), {});
+    .reduce(merge, {});
 };
 
 /**
@@ -63,9 +63,9 @@ const intermediate = ({ artifacts, ...rest }) => {
             dependencies: dependencies.map((dependency) => artifacts.find(({ name }) => name === dependency)),
           }
         }))
-        .reduce((acc, o) => ({ ...acc, ...o }), {}),
+        .reduce(merge, {}),
     }))
-    .reduce((acc, o) => ({ ...acc, ...o }), { artifacts });
+    .reduce(merge, { artifacts });
 };
 
 /**
@@ -118,14 +118,14 @@ const resolve = ({ artifacts, ...rest }) => {
     .map(([groupType, groupValues]) => ({
       [groupType]: Object.entries(groupValues)
         .map(([artifactName, artifactData]) => ({ [artifactName]: _resolve(artifactData, rest) }))
-        .reduce((acc, o) =>  ({ ...acc, ...o }), {})
+        .reduce(merge, {})
     }))
-    .reduce((acc, o) => ({ ...acc, ...o }), {});
+    .reduce(merge, {});
 };
 
 const sanitizedData = Object.entries(rest)
   .map(([key, value]) => ({ [key]: sanitize(value) }))
-  .reduce((acc, o) => ({ ...acc, ...o }), { artifacts });
+  .reduce(merge, { artifacts });
 
 const intermediateData = intermediate(sanitizedData);
 
