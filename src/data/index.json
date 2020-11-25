@@ -1,5 +1,5 @@
 {
-  "applications": {
+  "application": {
     "0": {
       "name": "my-cool-app",
       "dependencies": [
@@ -8,7 +8,7 @@
       ]
     }
   },
-  "libraries": {
+  "library": {
     "0": {
       "name": "my-user-lib",
       "dependencies": [
@@ -19,7 +19,7 @@
       "name": "my-encription-lib"
     }
   },
-  "apis": {
+  "api": {
     "0": {
       "name": "my-user-api"
     }
