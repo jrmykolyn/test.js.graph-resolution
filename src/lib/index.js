@@ -105,13 +105,19 @@ const intermediate = ({ artifacts, ...rest }) => {
  * }
  */
 const resolve = ({ artifacts, ...rest }) => {
+  const _resolve = ({ dependencies, ...rest }, data, cache = {}) => ({
+    ...rest,
+    dependencies: dependencies.map(({ name, type }) => {
+      cache[name] = cache[name] || _resolve(data[type][name], data, cache);
+      return cache[name];
+    }),
+  });
+
   return Object.entries(rest)
-    .map(([key, value]) => ({
-      [key]: Object.values(value)
-      .map(({ dependencies, ...r }) => ({
-        ...r,
-        dependencies: dependencies.map(({ name, type }) => rest[type][name]),
-      })),
+    .map(([groupType, groupValues]) => ({
+      [groupType]: Object.entries(groupValues)
+        .map(([artifactName, artifactData]) => ({ [artifactName]: _resolve(artifactData, rest) }))
+        .reduce((acc, o) =>  ({ ...acc, ...o }), {})
     }))
     .reduce((acc, o) => ({ ...acc, ...o }), {});
 };
