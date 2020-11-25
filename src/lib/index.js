@@ -1,4 +1,4 @@
-const { artifacts, ...rest } = require('../data');
+const data = require('../data');
 const { keyOn, merge } = require('./utils');
 
 /**
@@ -15,10 +15,14 @@ const { keyOn, merge } = require('./utils');
  *  "foo": { "name": "foo" }
  * }
  */
-const sanitize = (data) => {
-  return Object.values(data)
+const sanitize = ({ artifacts, ...rest }) => {
+  const _sanitize = (data) => Object.values(data)
     .map(keyOn('name'))
     .reduce(merge, {});
+
+  return Object.entries(rest)
+    .map(([key, value]) => ({ [key]: _sanitize(value) }))
+    .reduce(merge, { artifacts });
 };
 
 /**
@@ -123,9 +127,7 @@ const resolve = ({ artifacts, ...rest }) => {
     .reduce(merge, {});
 };
 
-const sanitizedData = Object.entries(rest)
-  .map(([key, value]) => ({ [key]: sanitize(value) }))
-  .reduce(merge, { artifacts });
+const sanitizedData = sanitize(data);
 
 const intermediateData = intermediate(sanitizedData);
 
