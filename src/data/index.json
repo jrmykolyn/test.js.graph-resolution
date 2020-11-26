@@ -12,7 +12,7 @@
     "0": {
       "name": "my-user-lib",
       "dependencies": [
-        "my-user-api"
+        "@api/my-user-client"
       ]
     },
     "1": {

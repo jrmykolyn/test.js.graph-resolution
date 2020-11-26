@@ -1,4 +1,5 @@
 const data = require('../data');
+const { normalizer } = require('./normalizer');
 const { keyOn, merge } = require('./utils');
 
 /**
@@ -64,7 +65,7 @@ const intermediate = ({ artifacts, ...rest }) => {
         .map(([k, { dependencies = [], ...r }]) => ({
           [k]: {
             ...r,
-            dependencies: dependencies.map((dependency) => artifacts.find(({ name }) => name === dependency)),
+            dependencies: dependencies.map((dependency) => artifacts.find(({ name }) => name === normalizer.normalizeDependencyOfType(dependency, key))),
           }
         }))
         .reduce(merge, {}),
